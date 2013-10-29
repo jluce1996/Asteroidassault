@@ -38,6 +38,7 @@ namespace Asteroid_Belt_Assault
                     initialFrame.Width,
                     initialFrame.Height));
             }
+            newAsteroid.HitPoints = 0;
             newAsteroid.Rotation =
                 MathHelper.ToRadians((float)rand.Next(0, 360));
             newAsteroid.CollisionRadius = 15;

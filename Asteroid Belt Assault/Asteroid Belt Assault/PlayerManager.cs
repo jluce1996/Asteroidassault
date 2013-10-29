@@ -14,13 +14,13 @@ namespace Asteroid_Belt_Assault
         private float playerSpeed = 160.0f;
         private Rectangle playerAreaLimit;
 
-        public long PlayerScore = 0;
+        private long playerscore = 0;
         public int LivesRemaining = 3;
         public bool Destroyed = false;
 
         private Vector2 gunOffset = new Vector2(25, 10);
         private float shotTimer = 0.0f;
-        private float minShotTimer = 0.01f;
+        private float minShotTimer = .1f;
         private int playerRadius = 15;
         public ShotManager PlayerShotManager;
 
@@ -61,6 +61,22 @@ namespace Asteroid_Belt_Assault
                         initialFrame.Height));
             }
             playerSprite.CollisionRadius = playerRadius;
+        }
+
+        public long PlayerScore
+        {
+            get
+            {
+                return playerscore;
+            }
+            set
+            {
+                playerscore = value;
+                if (playerscore % 10000 == 0 && playerscore > 0)
+                {
+                    LivesRemaining++;
+                }
+            }
         }
 
         private void FireShot()

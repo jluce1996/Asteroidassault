@@ -212,7 +212,7 @@ namespace Asteroid_Belt_Assault
                             gameState = GameStates.PlayerDead;
                         }
                     }
-
+     
                     break;
 
                 case GameStates.PlayerDead:
@@ -296,11 +296,7 @@ namespace Asteroid_Belt_Assault
                 }
                
             }
-            if (playerManager.PlayerScore % 10000 == 0)
-            {
-                playerManager.LivesRemaining++;
-            }
-     
+
             if ((gameState == GameStates.GameOver))
             {
                 spriteBatch.DrawString(
