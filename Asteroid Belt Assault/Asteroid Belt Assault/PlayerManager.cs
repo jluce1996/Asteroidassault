@@ -83,9 +83,11 @@ namespace Asteroid_Belt_Assault
         {
             if (shotTimer >= minShotTimer)
             {
+                Vector2 vel = new Vector2((float)Math.Sin(playerSprite.Rotation), -(float)Math.Cos(playerSprite.Rotation));
+
                 PlayerShotManager.FireShot(
-                    playerSprite.Location + gunOffset,
-                    new Vector2(0, -1),
+                    playerSprite.Center + new Vector2(-3, 0) + vel * 20,
+                    vel,
                     true);
                 shotTimer = 0.0f;
             }
@@ -117,6 +119,23 @@ namespace Asteroid_Belt_Assault
             {
                 FireShot();
             }
+
+            if (keyState.IsKeyDown(Keys.A))
+            {
+                playerSprite.Rotation += -0.06f;
+            }
+
+            if (keyState.IsKeyDown(Keys.D))
+            {
+                playerSprite.Rotation += 0.06f;
+                
+            }
+
+            if (keyState.IsKeyDown(Keys.S))
+            {
+                playerSprite.Rotation = 0;
+            }
+
         }
 
         private void HandleGamepadInput(GamePadState gamePadState)
