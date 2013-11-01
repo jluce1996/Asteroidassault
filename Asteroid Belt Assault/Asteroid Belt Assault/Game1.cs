@@ -23,12 +23,14 @@ namespace Asteroid_Belt_Assault
         GameStates gameState = GameStates.TitleScreen;
         Texture2D titleScreen;
         Texture2D spriteSheet;
+        Texture2D laserpowerup;
 
         StarField starField;
         AsteroidManager asteroidManager;
         PlayerManager playerManager;
         EnemyManager enemyManager;
         ExplosionManager explosionManager;
+        PowerupManager powerupManager;
 
         CollisionManager collisionManager;
 
@@ -75,6 +77,7 @@ namespace Asteroid_Belt_Assault
 
             titleScreen = Content.Load<Texture2D>(@"Textures\TitleScreen");
             spriteSheet = Content.Load<Texture2D>(@"Textures\spriteSheet");
+            laserpowerup = Content.Load<Texture2D>(@"Textures\laserpowerup");
 
             starField = new StarField(
                 this.Window.ClientBounds.Width,
@@ -101,6 +104,8 @@ namespace Asteroid_Belt_Assault
                     0,
                     this.Window.ClientBounds.Width,
                     this.Window.ClientBounds.Height));
+
+            powerupManager = new PowerupManager(laserpowerup, playerManager);
 
             enemyManager = new EnemyManager(
                 spriteSheet,
@@ -197,6 +202,7 @@ namespace Asteroid_Belt_Assault
                     enemyManager.Update(gameTime);
                     explosionManager.Update(gameTime);
                     collisionManager.CheckCollisions();
+                    powerupManager.Update(gameTime);
 
                     if (playerManager.Destroyed)
                     {
@@ -224,6 +230,7 @@ namespace Asteroid_Belt_Assault
                     enemyManager.Update(gameTime);
                     playerManager.PlayerShotManager.Update(gameTime);
                     explosionManager.Update(gameTime);
+                    powerupManager.Update(gameTime);
 
                     if (playerDeathTimer >= playerDeathDelayTime)
                     {
@@ -278,6 +285,7 @@ namespace Asteroid_Belt_Assault
                 playerManager.Draw(spriteBatch);
                 enemyManager.Draw(spriteBatch);
                 explosionManager.Draw(spriteBatch);
+                powerupManager.Draw(spriteBatch);
 
                 spriteBatch.DrawString(
                     pericles14,

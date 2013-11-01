@@ -170,6 +170,7 @@ namespace Asteroid_Belt_Assault
                 1.0f,
                 SpriteEffects.None,
                 0.0f);
+            
         }
 
     }
