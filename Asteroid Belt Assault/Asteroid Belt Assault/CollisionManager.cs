@@ -16,6 +16,7 @@ namespace Asteroid_Belt_Assault
         private Vector2 offScreen = new Vector2(-500, -500);
         private Vector2 shotToAsteroidImpact = new Vector2(0, -20);
         private int enemyPointValue = 100;
+        
 
         public CollisionManager(
             AsteroidManager asteroidManager,
@@ -141,15 +142,19 @@ namespace Asteroid_Belt_Assault
 
         private void checkPoweruptoPlayerCollisions()
         {
-            foreach (Sprite laserpowerup in powerupManager.SpawnPowerup)
+            foreach (Sprite laser in powerupManager.powerups)
             {
-                if (laserpowerup.IsCircleColliding(
+                if (laser.IsCircleColliding(
                     playerManager.playerSprite.Center,
                     playerManager.playerSprite.CollisionRadius))
                 {
-                    laserpowerup.Location = offScreen;
+                    laser.Location = offScreen;
+                    playerManager.minShotTimer = .01f;
+                    powerupManager.gotpowerup = true;
                 }
-
+            }
+        }
+      
         public void CheckCollisions()
         {
             checkShotToEnemyCollisions();
@@ -159,6 +164,7 @@ namespace Asteroid_Belt_Assault
                 checkShotToPlayerCollisions();
                 checkEnemyToPlayerCollisions();
                 checkAsteroidToPlayerCollisions();
+                checkPoweruptoPlayerCollisions();
             }
         }
 

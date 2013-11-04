@@ -128,7 +128,8 @@ namespace Asteroid_Belt_Assault
                 asteroidManager,
                 playerManager,
                 enemyManager,
-                explosionManager);
+                explosionManager,
+                powerupManager);
 
             SoundManager.Initialize(Content);
 
@@ -247,6 +248,7 @@ namespace Asteroid_Belt_Assault
                     enemyManager.Update(gameTime);
                     playerManager.PlayerShotManager.Update(gameTime);
                     explosionManager.Update(gameTime);
+                    powerupManager.Update(gameTime); 
                     if (playerDeathTimer >= playerDeathDelayTime)
                     {
                         gameState = GameStates.TitleScreen;
