@@ -65,14 +65,15 @@ namespace Asteroid_Belt_Assault
                         asteroid.CollisionRadius))
                     {
                         shot.Location = offScreen;
-                        asteroid.HitPoints++;
+                        asteroid.HitPoints--;
                         
-                       if(asteroid.HitPoints == 5)
+                       if(asteroid.HitPoints == 0)
                        {                           
                            explosionManager.AddExplosion(
                        asteroid.Center,
                        asteroid.Velocity / 10);
                            asteroid.Location = offScreen;
+                           asteroid.HitPoints = 5;
                        }
                     }
                 }

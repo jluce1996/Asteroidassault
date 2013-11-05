@@ -14,6 +14,7 @@ namespace Asteroid_Belt_Assault
         public List<Sprite> powerups = new List<Sprite>();
         public float poweruptimer = 0;
         public bool gotpowerup = false;
+        public float spawntimer = 0;
 
         public PowerupManager(Texture2D laserpowerup, PlayerManager playerManager)
         {
@@ -25,7 +26,7 @@ namespace Asteroid_Belt_Assault
 
         public void SpawnPowerup()
         {
-            Sprite laser = new Sprite(new Vector2(300, 0), laserpowerup, new Rectangle(0, 0, 60, 53), new Vector2(0, 50));
+            Sprite laser = new Sprite(new Vector2(300, -20), laserpowerup, new Rectangle(0, 0, 60, 53), new Vector2(0, 50));
 
             powerups.Add(laser);
 
@@ -43,10 +44,15 @@ namespace Asteroid_Belt_Assault
                     playerManager.minShotTimer = .1f;
                 }
             }
-            if (gameTime.TotalGameTime.TotalMilliseconds = 0 || gameTime.TotalGameTime.TotalMilliseconds % 60000 == 0)
-            {
-                SpawnPowerup();
-            }
+            
+                spawntimer += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+                if (spawntimer > 60000)
+                {
+                    SpawnPowerup();
+                    spawntimer = 0;                    
+                }
+            
+            
 
             
             for (int i = powerups.Count - 1; i >= 0; i--)
