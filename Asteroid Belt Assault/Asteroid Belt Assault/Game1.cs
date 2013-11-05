@@ -24,6 +24,7 @@ namespace Asteroid_Belt_Assault
         Texture2D titleScreen;
         Texture2D spriteSheet;
         Texture2D laserpowerup;
+        Texture2D Blackhole;
 
         StarField starField;
         AsteroidManager asteroidManager;
@@ -78,6 +79,7 @@ namespace Asteroid_Belt_Assault
             titleScreen = Content.Load<Texture2D>(@"Textures\TitleScreen");
             spriteSheet = Content.Load<Texture2D>(@"Textures\spriteSheet");
             laserpowerup = Content.Load<Texture2D>(@"Textures\laserpowerup");
+            Blackhole = Content.Load<Texture2D>(@"Textures\Blackhole");
 
             starField = new StarField(
                 this.Window.ClientBounds.Width,
@@ -105,7 +107,7 @@ namespace Asteroid_Belt_Assault
                     this.Window.ClientBounds.Width,
                     this.Window.ClientBounds.Height));
 
-            powerupManager = new PowerupManager(laserpowerup, playerManager);
+            powerupManager = new PowerupManager(laserpowerup, Blackhole, playerManager);
 
             enemyManager = new EnemyManager(
                 spriteSheet,

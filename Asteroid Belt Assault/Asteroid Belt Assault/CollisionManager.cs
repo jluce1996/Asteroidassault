@@ -155,7 +155,21 @@ namespace Asteroid_Belt_Assault
                 }
             }
         }
-      
+        private void checkBlackholetoPlayerCollisions()
+        {
+            foreach (Sprite Blackhole in powerupManager.powerups)
+            {
+                if (Blackhole.IsCircleColliding(
+                    playerManager.playerSprite.Center,
+                    playerManager.playerSprite.CollisionRadius))
+                {
+                    Blackhole.Location = offScreen;
+                    playerManager.playerSprite.Location = offScreen;
+                    
+                }
+            }
+        }
+
         public void CheckCollisions()
         {
             checkShotToEnemyCollisions();
@@ -166,6 +180,7 @@ namespace Asteroid_Belt_Assault
                 checkEnemyToPlayerCollisions();
                 checkAsteroidToPlayerCollisions();
                 checkPoweruptoPlayerCollisions();
+                checkBlackholetoPlayerCollisions();
             }
         }
 
