@@ -13,9 +13,14 @@ namespace Asteroid_Belt_Assault
         Texture2D Blackhole;
         private PlayerManager playerManager;
         public List<Sprite> powerups = new List<Sprite>();
+        public List<Sprite> powerdowns = new List<Sprite>();
         public float poweruptimer = 0;
         public bool gotpowerup = false;
-        public float spawntimer = 0;
+        public float spawnpoweruptimer = 0;
+        public float spawnblackholetimer = 0;
+        public bool gotblackhole = false;
+        public float blackholetimer = 0;
+
 
         public PowerupManager(Texture2D laserpowerup, Texture2D blackhole, PlayerManager playerManager)
         {
@@ -30,14 +35,13 @@ namespace Asteroid_Belt_Assault
         public void SpawnPowerup()
         {
             Sprite laser = new Sprite(new Vector2(100, -20), laserpowerup, new Rectangle(0, 0, 60, 53), new Vector2(0, 50));
-            
             powerups.Add(laser);
         }
         
         public void SpawnBlackhole()
         {
            Sprite blackhole = new Sprite(new Vector2(400, -30), Blackhole, new Rectangle(0, 0, 80, 60), new Vector2(0, 50));
-           powerups.Add(blackhole);
+           powerdowns.Add(blackhole);
         }
         
         public void Update(GameTime gameTime)
@@ -52,22 +56,48 @@ namespace Asteroid_Belt_Assault
                     playerManager.minShotTimer = .1f;
                 }
             }
+
+            if (gotblackhole)
+            {
+                blackholetimer += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+                if (blackholetimer > 5000)
+                {
+                    gotblackhole = false;
+                    blackholetimer = 0;
+                    playerManager.Destroyed = true;
+                }
+            }
             
-                spawntimer += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-                if (spawntimer > 60000)
+                spawnpoweruptimer += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+                if (spawnpoweruptimer > 60000)
                 {
                     SpawnPowerup();
-                    spawntimer = 0;                    
+                    spawnpoweruptimer = 0;                    
                 }
+
+                spawnblackholetimer += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+                if (spawnblackholetimer > 30000)
+                {
+                    SpawnBlackhole();
+                    spawnblackholetimer = 0;
+                }
+
 
             for (int i = powerups.Count - 1; i >= 0; i--)
                 powerups[i].Update(gameTime);
+
+            for (int i = powerdowns.Count - 1; i >= 0; i--)
+                powerdowns[i].Update(gameTime);
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
             for (int i = powerups.Count - 1; i >= 0; i--)
                 powerups[i].Draw(spriteBatch);
+
+            for (int i = powerdowns.Count - 1; i >= 0; i--)
+                powerdowns[i].Draw(spriteBatch);
+            
         }
     }
 }

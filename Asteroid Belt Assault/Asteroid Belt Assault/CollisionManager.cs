@@ -157,15 +157,16 @@ namespace Asteroid_Belt_Assault
         }
         private void checkBlackholetoPlayerCollisions()
         {
-            foreach (Sprite Blackhole in powerupManager.powerups)
+            foreach (Sprite Blackhole in powerupManager.powerdowns)
             {
-                if (Blackhole.IsCircleColliding(
-                    playerManager.playerSprite.Center,
+                if (Blackhole.IsCircleColliding(playerManager.playerSprite.Center,
                     playerManager.playerSprite.CollisionRadius))
                 {
                     Blackhole.Location = offScreen;
-                    playerManager.playerSprite.Location = offScreen;
-                    
+                    playerManager.Destroyed = true;
+                    explosionManager.AddExplosion(playerManager.playerSprite.Center, Vector2.Zero);
+                    playerManager.LivesRemaining = playerManager.LivesRemaining--;
+                    powerupManager.gotblackhole = false; 
                 }
             }
         }
