@@ -20,6 +20,7 @@ namespace Asteroid_Belt_Assault
         public float spawnblackholetimer = 0;
         public bool gotblackhole = false;
         public float blackholetimer = 0;
+        
 
 
         public PowerupManager(Texture2D laserpowerup, Texture2D blackhole, PlayerManager playerManager)
@@ -36,12 +37,14 @@ namespace Asteroid_Belt_Assault
         {
             Sprite laser = new Sprite(new Vector2(100, -20), laserpowerup, new Rectangle(0, 0, 60, 53), new Vector2(0, 50));
             powerups.Add(laser);
+
         }
         
         public void SpawnBlackhole()
         {
            Sprite blackhole = new Sprite(new Vector2(400, -30), Blackhole, new Rectangle(0, 0, 80, 60), new Vector2(0, 50));
            powerdowns.Add(blackhole);
+           blackhole.HitPoints = 10;
         }
         
         public void Update(GameTime gameTime)
@@ -67,26 +70,27 @@ namespace Asteroid_Belt_Assault
                     playerManager.Destroyed = true;
                 }
             }
-            
-                spawnpoweruptimer += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-                if (spawnpoweruptimer > 60000)
+                 spawnpoweruptimer += (float)gameTime.ElapsedGameTime.TotalMilliseconds;          
+                if (spawnpoweruptimer > 60000)                 
                 {
-                    SpawnPowerup();
+                SpawnPowerup();
                     spawnpoweruptimer = 0;                    
                 }
-
-                spawnblackholetimer += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+   
+            spawnblackholetimer += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
                 if (spawnblackholetimer > 30000)
+                
                 {
                     SpawnBlackhole();
                     spawnblackholetimer = 0;
                 }
+           
 
 
-            for (int i = powerups.Count - 1; i >= 0; i--)
-                powerups[i].Update(gameTime);
+           for (int i = powerups.Count - 1; i >= 0; i--)
+               powerups[i].Update(gameTime);
 
-            for (int i = powerdowns.Count - 1; i >= 0; i--)
+           for (int i = powerdowns.Count - 1; i >= 0; i--)
                 powerdowns[i].Update(gameTime);
         }
 
@@ -97,7 +101,8 @@ namespace Asteroid_Belt_Assault
 
             for (int i = powerdowns.Count - 1; i >= 0; i--)
                 powerdowns[i].Draw(spriteBatch);
-            
+           
+
         }
     }
 }

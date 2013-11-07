@@ -8,6 +8,13 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Asteroid_Belt_Assault
 {
+    enum Weapon
+    {
+        SINGLESHOT,
+        FASTSHOT,
+        MULTISHOT
+    }
+
     class PlayerManager
     {
         public Sprite playerSprite;
@@ -24,12 +31,16 @@ namespace Asteroid_Belt_Assault
         private int playerRadius = 15;
         public ShotManager PlayerShotManager;
 
+        public Weapon weapon;
+
         public PlayerManager(
             Texture2D texture,  
             Rectangle initialFrame,
             int frameCount,
             Rectangle screenBounds)
         {
+            weapon = Weapon.SINGLESHOT;
+
             playerSprite = new Sprite(
                 new Vector2(500, 500),
                 texture,
@@ -81,14 +92,35 @@ namespace Asteroid_Belt_Assault
 
         private void FireShot()
         {
+            Vector2 vel;
+
             if (shotTimer >= minShotTimer)
             {
-                Vector2 vel = new Vector2((float)Math.Sin(playerSprite.Rotation), -(float)Math.Cos(playerSprite.Rotation));
+                switch (weapon)
+                {
+                    case Weapon.SINGLESHOT:
+                        vel = new Vector2((float)Math.Sin(playerSprite.Rotation), -(float)Math.Cos(playerSprite.Rotation));
 
-                PlayerShotManager.FireShot(
-                    playerSprite.Center + new Vector2(-3, 0) + vel * 20,
-                    vel,
-                    true);
+                        PlayerShotManager.FireShot(
+                            playerSprite.Center + new Vector2(-3, 0) + vel * 20,
+                            vel,
+                            true);
+                        break;
+
+                    case Weapon.MULTISHOT:
+
+
+                        for (int x = -5; x < 5; x++)
+                        {
+                            vel = new Vector2((float)Math.Sin(playerSprite.Rotation + (float)x*Math.PI/180 * 4), -(float)Math.Cos(playerSprite.Rotation + (float)x*Math.PI/180 * 5));
+
+                            PlayerShotManager.FireShot(
+                                playerSprite.Center + new Vector2(-3, 0) + vel * 20,
+                                vel,
+                                true);
+                        }
+                        break;
+                } 
                 shotTimer = 0.0f;
             }
         }

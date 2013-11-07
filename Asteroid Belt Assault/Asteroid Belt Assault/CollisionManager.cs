@@ -166,11 +166,28 @@ namespace Asteroid_Belt_Assault
                     playerManager.Destroyed = true;
                     explosionManager.AddExplosion(playerManager.playerSprite.Center, Vector2.Zero);
                     playerManager.LivesRemaining = playerManager.LivesRemaining--;
-                    powerupManager.gotblackhole = false; 
+                    powerupManager.gotblackhole = false;
                 }
             }
         }
 
+        private void checkShottoBlackholeCollisions()
+        {
+            foreach (Sprite shot in playerManager.PlayerShotManager.Shots)
+            {
+                foreach (Sprite Blackhole in powerupManager.powerdowns)
+                {
+                    if (shot.IsCircleColliding(Blackhole.Center, Blackhole.CollisionRadius))
+                    {
+                        Blackhole.HitPoints--;
+                        if (Blackhole.HitPoints == 0)
+                        {
+                            Blackhole.Location = offScreen;
+                        }
+                    }
+                }
+            }
+        }
         public void CheckCollisions()
         {
             checkShotToEnemyCollisions();
@@ -182,6 +199,7 @@ namespace Asteroid_Belt_Assault
                 checkAsteroidToPlayerCollisions();
                 checkPoweruptoPlayerCollisions();
                 checkBlackholetoPlayerCollisions();
+                checkShottoBlackholeCollisions();
             }
         }
 

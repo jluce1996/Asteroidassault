@@ -76,7 +76,7 @@ namespace Asteroid_Belt_Assault
             waveSpawns[3] = 0;
 
             List<Vector2> path4 = new List<Vector2>();
-            path4.Add(new Vector2(400, 500 ));
+            path4.Add(new Vector2(400, 500));
             path4.Add(new Vector2(200, 200));
             path4.Add(new Vector2(290, 150));
             path4.Add(new Vector2(350, 200));
@@ -86,6 +86,18 @@ namespace Asteroid_Belt_Assault
             path4.Add(new Vector2(230, 425));
             pathWaypoints.Add(path4);
             waveSpawns[4] = 0;
+
+            List<Vector2> path5 = new List<Vector2>();
+            path5.Add(new Vector2(200, -100));
+            path5.Add(new Vector2(420, 150));
+            path4.Add(new Vector2(450, 200));
+            path4.Add(new Vector2(400, 175));
+            path4.Add(new Vector2(220, 160));
+            path4.Add(new Vector2(520, 210));
+            path4.Add(new Vector2(590, 130));
+            path4.Add(new Vector2(450, 320));
+            waveSpawns[5] = 0;
+
         }
 
         public EnemyManager(
