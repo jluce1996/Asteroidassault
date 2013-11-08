@@ -26,7 +26,7 @@ namespace Asteroid_Belt_Assault
         Texture2D laserpowerup;
         Texture2D Blackhole;
 
-        StarField starField;
+        List<StarField> starField;
         AsteroidManager asteroidManager;
         PlayerManager playerManager;
         EnemyManager enemyManager;
@@ -81,13 +81,18 @@ namespace Asteroid_Belt_Assault
             laserpowerup = Content.Load<Texture2D>(@"Textures\laserpowerup");
             Blackhole = Content.Load<Texture2D>(@"Textures\Blackhole");
 
-            starField = new StarField(
-                this.Window.ClientBounds.Width,
-                this.Window.ClientBounds.Height,
-                200,
-                new Vector2(0, 30f),
-                spriteSheet,
-                new Rectangle(0, 450, 2, 2));
+            starField = new List<StarField>();
+
+            for (int i = 0; i < 5; i++)
+            {
+                starField.Add( new StarField(
+                    this.Window.ClientBounds.Width,
+                    this.Window.ClientBounds.Height,
+                    200,
+                    new Vector2(0, 30f * (float)i),
+                    spriteSheet,
+                    new Rectangle(0, 450, 2, 2)) );
+            }
 
             asteroidManager = new AsteroidManager(
                 10,
@@ -199,7 +204,10 @@ namespace Asteroid_Belt_Assault
 
                 case GameStates.Playing:
 
-                    starField.Update(gameTime);
+                    for (int i = 0; i < starField.Count; i++)
+                    {
+                        starField[i].Update(gameTime);
+                    }
                     asteroidManager.Update(gameTime);
                     playerManager.Update(gameTime);
                     enemyManager.Update(gameTime);
@@ -228,7 +236,10 @@ namespace Asteroid_Belt_Assault
                     playerDeathTimer +=
                         (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-                    starField.Update(gameTime);
+                    for (int i = 0; i < starField.Count; i++)
+                    {
+                        starField[i].Update(gameTime);
+                    }
                     asteroidManager.Update(gameTime);
                     enemyManager.Update(gameTime);
                     playerManager.PlayerShotManager.Update(gameTime);
@@ -245,7 +256,10 @@ namespace Asteroid_Belt_Assault
                 case GameStates.GameOver:
                     playerDeathTimer +=
                         (float)gameTime.ElapsedGameTime.TotalSeconds;
-                    starField.Update(gameTime);
+                    for (int i = 0; i < starField.Count; i++)
+                    {
+                        starField[i].Update(gameTime);
+                    }
                     asteroidManager.Update(gameTime);
                     enemyManager.Update(gameTime);
                     playerManager.PlayerShotManager.Update(gameTime);
@@ -270,21 +284,30 @@ namespace Asteroid_Belt_Assault
         {
             GraphicsDevice.Clear(Color.Black);
 
-            spriteBatch.Begin();
+            
 
             if (gameState == GameStates.TitleScreen)
             {
+                spriteBatch.Begin();
+
                 spriteBatch.Draw(titleScreen,
                     new Rectangle(0, 0, this.Window.ClientBounds.Width,
                         this.Window.ClientBounds.Height),
                         Color.White);
+
+                spriteBatch.End();
             }
 
             if ((gameState == GameStates.Playing) ||
                 (gameState == GameStates.PlayerDead) ||
                 (gameState == GameStates.GameOver))
             {
-                starField.Draw(spriteBatch);
+                spriteBatch.Begin();
+
+                for (int i = 0; i < starField.Count; i++)
+                {
+                    starField[i].Draw(spriteBatch);
+                }
                 asteroidManager.Draw(spriteBatch);
                 playerManager.Draw(spriteBatch);
                 enemyManager.Draw(spriteBatch);
@@ -306,11 +329,21 @@ namespace Asteroid_Belt_Assault
                         livesLocation,
                         Color.White);                    
                 }
-               
+
+
+                spriteBatch.End();
+
+                spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.Additive);
+
+                
+
+                spriteBatch.End();
             }
 
             if ((gameState == GameStates.GameOver))
             {
+                spriteBatch.Begin();
+
                 spriteBatch.DrawString(
                     pericles14,
                     "G A M E  O V E R !",
@@ -319,10 +352,12 @@ namespace Asteroid_Belt_Assault
                           pericles14.MeasureString("G A M E  O V E R !").X / 2,
                         50),
                     Color.White);
+
+                spriteBatch.End();
+
+
             }
 
-
-            spriteBatch.End();
 
             base.Draw(gameTime);
         }

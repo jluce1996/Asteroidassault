@@ -147,7 +147,7 @@ namespace Asteroid_Belt_Assault
             {
                 if (laser.IsCircleColliding(
                     playerManager.playerSprite.Center,
-                    playerManager.playerSprite.CollisionRadius))
+                    playerManager.playerSprite.CollisionRadius*2))
                 {
                     laser.Location = offScreen;
                     playerManager.minShotTimer = .01f;
@@ -160,7 +160,7 @@ namespace Asteroid_Belt_Assault
             foreach (Sprite Blackhole in powerupManager.powerdowns)
             {
                 if (Blackhole.IsCircleColliding(playerManager.playerSprite.Center,
-                    playerManager.playerSprite.CollisionRadius))
+                    playerManager.playerSprite.CollisionRadius*2))
                 {
                     Blackhole.Location = offScreen;
                     playerManager.Destroyed = true;
